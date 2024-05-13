@@ -26,7 +26,7 @@ for index, row in df.iterrows():
 document_df = pd.DataFrame.from_dict(documents, orient='index')
 
 # Load your custom stop words from Stopword.txt
-stopword_file_path = 'D:\\IR\\AssignmentNo1\\Stopword-List.txt'  # Change to the path of your Stopword.txt file
+stopword_file_path = 'Stopword-List.txt'  # Change to the path of your Stopword.txt file
 with open(stopword_file_path, 'r') as f:
     custom_stopwords = set(f.read().splitlines())
 
