@@ -1,19 +1,26 @@
 import streamlit as st
 import joblib
+import os
+import string
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import confusion_matrix, classification_report, accuracy_score, silhouette_score, adjusted_rand_score
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cluster import KMeans
 from sklearn.model_selection import StratifiedShuffleSplit
+from nltk.tokenize import word_tokenize
+from nltk.stem import PorterStemmer
+import nltk
 import numpy as np
 import pandas as pd
-
+from load_dataset import preprocess_text
 # Load pre-saved data and models
-vectorized_data_path = 'vectorized_data.pkl'
-labels_path = 'labels.pkl'
-vectorizer_path = 'vectorizer.pkl'
-label_encoder_path = 'label_encoder.pkl'
+vectorized_data_path = 'vectorized_data\\vectorized_data.pkl'
+labels_path = 'vectorized_data\\labels.pkl'
+vectorizer_path = 'vectorized_data\\vectorizer.pkl'
+label_encoder_path = 'vectorized_data\\label_encoder.pkl'
 
 X = joblib.load(vectorized_data_path)
 y = joblib.load(labels_path)
@@ -32,11 +39,8 @@ all_labels = np.unique(y)
 # Streamlit app
 st.title('Document Classification and Clustering App')
 st.write('This application showcases the results of KNN and KMeans on document classification.')
-
 # Choose model type
 model_type = st.selectbox('Select Model', ['KNN', 'KMeans'])
-
-# Stratified Train-Test Split
 splitter = StratifiedShuffleSplit(n_splits=1, test_size=0.3, random_state=42)
 train_idx, test_idx = next(splitter.split(X, y))
 X_train, X_test = X[train_idx], X[test_idx]
@@ -107,7 +111,7 @@ elif model_type == 'KMeans':
     fig, ax = plt.subplots()
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
                 xticklabels=range(k),
-                yticklabels=label_encoder.inverse_transform(all_labels))
+                yticklabels=all_labels)
     ax.set_xlabel('Cluster Label')
     ax.set_ylabel('True Label')
     ax.set_title(f'KMeans Confusion Matrix (k={k})')
@@ -135,4 +139,24 @@ elif model_type == 'KMeans':
     st.text(f'Silhouette Score: {silhouette:.4f}')
     st.text(f'Rand Index: {rand_index:.4f}')
 
-st.write('Adjust model parameters or switch models to explore classification results.')
+
+# Text input for new document classification
+st.subheader("Classify a new document")
+user_input = st.text_area("Enter the text of the document you wish to classify:", height=150)
+if st.button('Classify Document'):
+    if user_input:
+        # Assuming the preprocessing function and necessary resources are available
+        processed_text = preprocess_text(user_input)  # The function preprocess_text needs to be defined or imported
+        vectorized_text = vectorizer.transform([processed_text])
+        
+        if model_type == 'KNN':
+            prediction = knn.predict(vectorized_text)
+        elif model_type == 'KMeans':
+            prediction = kmeans.predict(vectorized_text)
+        
+            cluster_number = kmeans.predict(vectorized_text)
+            st.write(f'The document belongs to cluster number: **{cluster_number[0]}**')
+    else:
+        st.write("Please enter some text to classify.")
+
+
