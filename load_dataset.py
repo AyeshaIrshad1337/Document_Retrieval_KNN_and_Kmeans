@@ -14,7 +14,7 @@ df = pd.read_csv(csv_path)
 
 # Assuming the CSV contains columns 'document_id' and 'class', and your text files are named accordingly.
 documents = {}
-txt_files_directory = 'D:\\IR\\AssignmentNo1\\ResearchPapers\\'  # Change to the directory where your .txt files are located
+txt_files_directory = 'ResearchPapers/'  # Change to the directory where your .txt files are located
 
 for index, row in df.iterrows():
     doc_id = row['document_id']
