@@ -17,10 +17,10 @@ import numpy as np
 import pandas as pd
 from load_dataset import preprocess_text
 # Load pre-saved data and models
-vectorized_data_path = 'vectorized_data\vectorized_data.pkl'
-labels_path = 'vectorized_data\labels.pkl'
-vectorizer_path = 'vectorized_data\vectorizer.pkl'
-label_encoder_path = 'vectorized_data\label_encoder.pkl'
+vectorized_data_path = 'vectorized_data.pkl'
+labels_path = 'labels.pkl'
+vectorizer_path = 'vectorizer.pkl'
+label_encoder_path = 'label_encoder.pkl'
 
 X = joblib.load(vectorized_data_path)
 y = joblib.load(labels_path)

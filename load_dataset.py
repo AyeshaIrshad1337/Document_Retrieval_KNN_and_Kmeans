@@ -59,22 +59,19 @@ X = vectorizer.fit_transform(document_df['processed_text'])
 label_encoder = LabelEncoder()
 y = label_encoder.fit_transform(document_df['class'])
 
-# Create a directory for saving the vectorized data if it doesn't exist
-output_directory = 'vectorized_data/'
-os.makedirs(output_directory, exist_ok=True)
 
 # Save vectorized data
-vectorized_data_path = os.path.join(output_directory, 'vectorized_data.pkl')
+vectorized_data_path = 'vectorized_data.pkl'
 joblib.dump(X, vectorized_data_path)
 
 # Save labels
-labels_path = os.path.join(output_directory, 'labels.pkl')
+labels_path =  'labels.pkl'
 joblib.dump(y, labels_path)
 
 # Save the vectorizer itself for later transformation in other files
-vectorizer_path = os.path.join(output_directory, 'vectorizer.pkl')
+vectorizer_path =  'vectorizer.pkl'
 joblib.dump(vectorizer, vectorizer_path)
 
 # Save the label encoder for future decoding
-label_encoder_path = os.path.join(output_directory, 'label_encoder.pkl')
+label_encoder_path =  'label_encoder.pkl'
 joblib.dump(label_encoder, label_encoder_path)
