@@ -19,7 +19,7 @@ txt_files_directory = 'ResearchPapers/'  # Change to the directory where your .t
 for index, row in df.iterrows():
     doc_id = row['document_id']
     class_label = row['class']
-    with open(os.path.join(txt_files_directory, f'{doc_id}.txt'), 'r', encoding='utf-8') as file:
+    with open(os.path.join(txt_files_directory, f'{doc_id}.txt'), 'r', encoding='utf-8', errors='ignore') as file:
         documents[doc_id] = {'text': file.read(), 'class': class_label}
 
 # Convert the dictionary into a DataFrame for further processing
